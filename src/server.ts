@@ -1,6 +1,7 @@
 import express from "express"
 import cors from "cors"
 import { PrismaClient } from "../generated/prisma";
+import authRoutes from "./routes/authRoutes";  
 import 'dotenv/config'
 
 const app = express();
@@ -21,9 +22,12 @@ app.use(cors())
     }
 })();
 
+app.use("/api/auth", authRoutes );
+
 app.get("/", (req, res) => {
-    res.send("Bienvenue sur g l'API de l'application de gestion des tâches !");
+    res.send("Bienvenue sur g l'API de l'application génération de facture !");
 })
+
 
 
 app.listen(PORT, () => {
