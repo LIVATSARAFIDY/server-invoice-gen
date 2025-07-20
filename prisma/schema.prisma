@@ -40,9 +40,33 @@ model User {
   updatedAt  DateTime   @updatedAt
 }
 
-
 model Role {
   id    Int      @id @default(autoincrement())
   name  UserRole @unique
   users User[]
 }
+
+model Currency {
+  id            String         @id @default(cuid())
+  code          String         @unique
+  name          String
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  ratesAsBase   ExchangeRate[] @relation("BaseCurrency")
+  ratesAsTarget ExchangeRate[] @relation("TargetCurrency")
+}
+
+model ExchangeRate {
+  id               String   @id @default(cuid())
+  baseCurrency     Currency @relation("BaseCurrency", fields: [baseCurrencyId], references: [id])
+  baseCurrencyId   String
+  targetCurrency   Currency @relation("TargetCurrency", fields: [targetCurrencyId], references: [id])
+  targetCurrencyId String
+  rate             Float
+  date             DateTime // La date du taux de change (utile pour l'historique)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@unique([baseCurrencyId, targetCurrencyId, date])
+}
+

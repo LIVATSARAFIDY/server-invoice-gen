@@ -1,8 +1,11 @@
 import { PrismaClient } from "../../generated/prisma";
 import { hash, compare } from "bcrypt";
-import jwt from "jsonwebtoken";
-import 'dotenv/config';
+
 import type { Request, Response } from "express";
+
+import jwt from "jsonwebtoken";
+
+import 'dotenv/config';
 
 
 const prisma = new PrismaClient();
